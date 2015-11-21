@@ -6,11 +6,11 @@ import org.specs2.mutable.Specification
 
 class FormatterSpec extends Specification {
 
-  val cc = List(Country("NL", "Netherlands"), Country("TT", "Test"))
+  def cc = List(Country("NL", "Netherlands"), Country("TT", "Test"))
 
-  val aa = Map("NL" -> List(Airport("A1", "Test 1", "NL"), Airport("A2", "Test 2", "NL")))
+  def aa = Map("NL" -> List(Airport("A1", "Test 1", "NL"), Airport("A2", "Test 2", "NL")))
 
-  val rr = Map("A1" -> List(Runway("R1", "A1", "GR", "L1")))
+  def rr = Map("A1" -> List(Runway("R1", "A1", "GR", "L1")))
 
   "format" should {
     "format Country" in {

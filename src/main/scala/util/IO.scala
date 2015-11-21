@@ -9,11 +9,10 @@ trait IO {
     println(text)
   }
 
-  def read(text: String)(processor: String => Boolean) = {
+  def read(text: String)(processor: String => Boolean) =
     do {
       println(Separator)
       print(text)
     } while (processor(scala.io.StdIn.readLine().trim))
-  }
 
 }

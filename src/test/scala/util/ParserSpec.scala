@@ -8,7 +8,7 @@ import util.Parser._
 
 class ParserSpec extends Specification with Mockito {
 
-  val data = new ByteArrayInputStream("\"id\",\"name\"\n\"1\",\"test\"".getBytes)
+  def data = new ByteArrayInputStream("\"id\",\"name\"\n\"1\",\"test\"".getBytes)
 
   "Parser" should {
     "close resource" in {

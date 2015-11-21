@@ -4,7 +4,7 @@ import org.specs2.mutable.Specification
 
 class CountrySpec extends Specification {
 
-  val fields = List("code", "name")
+  def fields = List("code", "name")
 
   "Country Fields" should {
     "be equal" in {

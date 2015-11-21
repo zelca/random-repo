@@ -4,7 +4,7 @@ import org.specs2.mutable.Specification
 
 class RunwaySpec extends Specification {
 
-  val fields = List("id", "airport_ref", "surface", "le_ident")
+  def fields = List("id", "airport_ref", "surface", "le_ident")
 
   "Runway Fields" should {
     "be equal" in {

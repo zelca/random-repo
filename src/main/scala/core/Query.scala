@@ -8,7 +8,7 @@ object Query {
 
   type AirportByCountry = Map[String, List[Airport]]
 
-  /** returns countries that match any of filters. ordered by relevance to order of filters */
+  /** returns countries that match any of filters */
   def findByFilter(filters: (Country => Boolean)*)(implicit cc: List[Country], aa: AirportByCountry, rr: RunwayByAirport) = {
     val countries = filters.foldLeft((cc, List[Country]())) {
       case ((rest, result), filter) =>
