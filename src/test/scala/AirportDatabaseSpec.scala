@@ -77,7 +77,7 @@ class AirportDatabaseSpec extends Specification with Mockito {
     var input = List[String]()
 
     override def output(text: String) =
-      if (output.head == text) output = output.tail else println(text)
+      if (output.head == text) output = output.tail
 
     override def input(text: String)(processor: (String) => Boolean) = {
       var next = ""

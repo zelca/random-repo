@@ -1,31 +1,40 @@
+
 import core.Formatter._
 import core.Query._
 import data.{Airport, Country, Runway}
 import util.IO
 import util.Parser._
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.concurrent.duration._
+
 class AirportDatabase extends IO {
 
-  implicit val countries = {
+  val fcc = Future {
     val is = getClass.getResourceAsStream("countries.csv")
     parse(is).collect {
       case Country(c) => c
     }
   }
 
-  implicit val airports = {
+  val faa = Future {
     val is = getClass.getResourceAsStream("airports.csv")
     parse(is).collect {
       case Airport(a) => a
     }.groupBy(_.country).toMap
   }
 
-  implicit val runways = {
+  val frr = Future {
     val is = getClass.getResourceAsStream("runways.csv")
     parse(is).collect {
       case Runway(r) => r
     }.groupBy(_.airport).toMap
   }
+
+  implicit lazy val countries: List[Country] = Await.result(fcc, 1 minute)
+  implicit lazy val airports: Map[String, List[Airport]] = Await.result(faa, 1 minute)
+  implicit lazy val runways: Map[String, List[Runway]] = Await.result(frr, 1 minute)
 
   def menu = {
     output(" Welcome to Airport Database!")

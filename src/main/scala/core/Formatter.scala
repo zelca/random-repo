@@ -10,11 +10,14 @@ object Formatter {
 
   val indent2 = "\n    "
 
-  def format(c: Country): String = "Country[%s]: %s".format(c.code, c.name)
+  def format(c: Country): String =
+    "Country[%s]: %s".format(c.code, c.name)
 
-  def format(a: Airport): String = "Airport[%s]: %s".format(a.id, a.name)
+  def format(a: Airport): String =
+    "Airport[%s]: %s".format(a.id, a.name)
 
-  def format(r: Runway): String = "Runway[%s] surface: %s".format(r.id, r.properties.getOrElse("surface", "unknown"))
+  def format(r: Runway): String =
+    "Runway[%s] surface: %s".format(r.id, r.properties.getOrElse("surface", "unknown"))
 
   def formatCommonLatitudes(result: List[String]): String =
     indent0 + result.mkString(", ")
