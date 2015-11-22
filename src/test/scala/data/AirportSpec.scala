@@ -6,12 +6,6 @@ class AirportSpec extends Specification {
 
   def fields = List("id", "name", "iso_country")
 
-  "Airport Fields" should {
-    "be equal" in {
-      Airport.Fields mustEqual fields
-    }
-  }
-
   "Airport" should {
     "be mapped" in {
       def map(v: String*) = (fields zip v).toMap

@@ -22,29 +22,31 @@ class AirportDatabaseSpec extends Specification with Mockito {
       val app = new AirportDatabase with MockIO
       app.input = List("2", "3")
       val reports = List(
-        """Top 10 by number of airports:
-          |
+        "Top 10 by number of airports:",
+        """
           |Country[NL]: Netherlands - 2
           |Country[TT]: Test - 0""".stripMargin,
-        """Bottom 10 by number of airports:
-          |
+        "Bottom 10 by number of airports:",
+        """
           |Country[TT]: Test - 0
           |Country[NL]: Netherlands - 2""".stripMargin,
-        """Surfaces by country:
-          |
+        "Surfaces by country:",
+        """
           |Country[NL]: Netherlands - GR
           |Country[TT]: Test - """.stripMargin,
-        "Top 10 latitude: LB, LA")
+        "Top 10 latitudes:",
+        """
+          |LB, LA""".stripMargin)
       app.output = (intro :: reports) ++ List(outro)
 
       app.menu
       app.input mustEqual Nil
       app.output mustEqual Nil
     }
-    "print empty query result" in {
+    "print no input and empty query" in {
       val app = new AirportDatabase with MockIO
-      app.input = List("1", "xx", "3")
-      app.output = List(intro, " 0 countries were found.", outro)
+      app.input = List("1", "", "xx", "3")
+      app.output = List(intro, "Invalid input. Try again.", " 0 countries were found.", outro)
 
       app.menu
       app.input mustEqual Nil
@@ -53,7 +55,8 @@ class AirportDatabaseSpec extends Specification with Mockito {
     "print query result" in {
       val app = new AirportDatabase with MockIO
       app.input = List("1", "ne", "3")
-      val result = """Country[NL]: Netherlands
+      val result = """
+                     |Country[NL]: Netherlands
                      |  Airport[A1]: Test 1
                      |    Runway[R1] surface: GR
                      |    Runway[R2] surface: GR
@@ -73,10 +76,10 @@ class AirportDatabaseSpec extends Specification with Mockito {
 
     var input = List[String]()
 
-    override def write(text: String) =
-      if (output.head == text) output = output.tail
+    override def output(text: String) =
+      if (output.head == text) output = output.tail else println(text)
 
-    override def read(text: String)(processor: (String) => Boolean) = {
+    override def input(text: String)(processor: (String) => Boolean) = {
       var next = ""
       do {
         next = input.head

@@ -1,13 +1,14 @@
 package data
 
-case class Country(code: String, name: String)
+case class Country(id: String, code: String, name: String, properties: Map[String, String] = Map())
 
 object Country {
 
-  val Fields = List("code", "name")
+  val fields = List("id", "code", "name")
 
-  def unapply(values: Map[String, String]) = Fields.map(values.get) match {
-    case Some(code) :: Some(name) :: Nil => Some(Country(code, name))
+  def unapply(values: Map[String, String]) = fields.map(values.get) match {
+    case Some(id) :: Some(code) :: Some(name) :: Nil =>
+      Some(Country(id, code, name, values.filter(_._2.nonEmpty) -- fields))
     case _ => None
   }
 

@@ -1,14 +1,14 @@
 package data
 
-case class Runway(id: String, airport: String, surface: String, latitude: String)
+case class Runway(id: String, airport: String, properties: Map[String, String] = Map())
 
 object Runway {
 
-  val Fields = List("id", "airport_ref", "surface", "le_ident")
+  val fields = List("id", "airport_ref")
 
-  def unapply(values: Map[String, String]) = Fields.map(values.get) match {
-    case Some(id) :: Some(airport) :: Some(surface) :: Some(latitude) :: Nil =>
-      Some(Runway(id, airport, surface, latitude))
+  def unapply(values: Map[String, String]) = fields.map(values.get) match {
+    case Some(id) :: Some(airport) :: Nil =>
+      Some(Runway(id, airport, values.filter(_._2.nonEmpty) -- fields))
     case _ => None
   }
 

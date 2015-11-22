@@ -4,12 +4,12 @@ trait IO {
 
   val Separator = "------------------------------"
 
-  def write(text: String) = {
+  def output(text: String) = {
     println(Separator)
     println(text)
   }
 
-  def read(text: String)(processor: String => Boolean) =
+  def input(text: String)(processor: String => Boolean) =
     do {
       println(Separator)
       print(text)
