@@ -11,30 +11,30 @@ import scala.concurrent.duration._
 
 class AirportDatabase extends IO {
 
-  val fcc = Future {
+  val countriesLoader: Future[List[Country]] = Future {
     val is = getClass.getResourceAsStream("countries.csv")
     parse(is).collect {
       case Country(c) => c
     }
   }
 
-  val faa = Future {
+  val airportsLoader: Future[Map[String, List[Airport]]] = Future {
     val is = getClass.getResourceAsStream("airports.csv")
     parse(is).collect {
       case Airport(a) => a
-    }.groupBy(_.country).toMap
+    }.groupBy(_.country)
   }
 
-  val frr = Future {
+  val runwaysLoader: Future[Map[String, List[Runway]]] = Future {
     val is = getClass.getResourceAsStream("runways.csv")
     parse(is).collect {
       case Runway(r) => r
-    }.groupBy(_.airport).toMap
+    }.groupBy(_.airport)
   }
 
-  implicit lazy val countries: List[Country] = Await.result(fcc, 1 minute)
-  implicit lazy val airports: Map[String, List[Airport]] = Await.result(faa, 1 minute)
-  implicit lazy val runways: Map[String, List[Runway]] = Await.result(frr, 1 minute)
+  implicit lazy val countries: List[Country] = Await.result(countriesLoader, 1 minute)
+  implicit lazy val airports: Map[String, List[Airport]] = Await.result(airportsLoader, 1 minute)
+  implicit lazy val runways: Map[String, List[Runway]] = Await.result(runwaysLoader, 1 minute)
 
   def menu = {
     output(" Welcome to Airport Database!")
